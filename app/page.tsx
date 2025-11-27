@@ -2,8 +2,25 @@
 
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
 export default function Home() {
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setSuccess(false);
+
+    // Simulate API call (we’ll connect real backend later)
+    setTimeout(() => {
+      setLoading(false);
+      setSuccess(true);
+      (e.target as HTMLFormElement).reset();
+    }, 1500);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900">
 
@@ -16,14 +33,12 @@ export default function Home() {
       >
         <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
           <h1 className="text-2xl font-bold">BetaSync</h1>
-
           <nav className="hidden md:flex gap-8 font-medium text-gray-700">
             <a href="#services">Services</a>
             <a href="#industries">Industries</a>
             <a href="#whyus">Why Us</a>
             <a href="#contact">Contact</a>
           </nav>
-
           <Button className="rounded-2xl px-6">Get Started</Button>
         </div>
       </motion.header>
@@ -32,7 +47,6 @@ export default function Home() {
       <section className="bg-gradient-to-br from-gray-50 to-gray-200 py-28">
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-14 items-center">
 
-          {/* Left Content */}
           <motion.div
             initial={{ opacity: 0, x: -60 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -54,16 +68,13 @@ export default function Home() {
             </p>
 
             <div className="flex gap-4">
-              <Button className="rounded-2xl px-8 py-6 text-lg">
-                Work With Us
-              </Button>
+              <Button className="rounded-2xl px-8 py-6 text-lg">Work With Us</Button>
               <Button variant="outline" className="rounded-2xl px-8 py-6 text-lg">
                 View Portfolio
               </Button>
             </div>
           </motion.div>
 
-          {/* Right Visual */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -80,17 +91,7 @@ export default function Home() {
       {/* ================= SERVICES ================= */}
       <section id="services" className="py-28 bg-white">
         <div className="max-w-7xl mx-auto px-6 text-center">
-
-          <motion.h3
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-            className="text-4xl font-bold mb-4"
-          >
-            Our Core Services
-          </motion.h3>
-
+          <h3 className="text-4xl font-bold mb-4">Our Core Services</h3>
           <p className="text-gray-600 text-lg mb-14 max-w-2xl mx-auto">
             Everything you need to turn your idea into scalable production-ready software.
           </p>
@@ -123,53 +124,13 @@ export default function Home() {
               </motion.div>
             ))}
           </div>
-
-        </div>
-      </section>
-
-      {/* ================= INDUSTRIES ================= */}
-      <section id="industries" className="py-28 bg-gray-100">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-
-          <h3 className="text-4xl font-bold mb-4">Industries We Serve</h3>
-
-          <p className="text-gray-600 text-lg mb-16 max-w-2xl mx-auto">
-            We build software tailored to the toughest business environments.
-          </p>
-
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              "Finance",
-              "Logistics",
-              "E-commerce",
-              "Healthcare",
-              "Startups",
-              "Real Estate",
-              "Hospitality",
-              "Retail",
-            ].map((item, i) => (
-              <motion.div
-                key={item}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.4, delay: i * 0.08 }}
-                viewport={{ once: true }}
-                className="p-6 bg-white rounded-2xl shadow text-center font-medium hover:shadow-lg transition"
-              >
-                {item}
-              </motion.div>
-            ))}
-          </div>
-
         </div>
       </section>
 
       {/* ================= WHY US ================= */}
       <section id="whyus" className="py-28 bg-white">
         <div className="max-w-7xl mx-auto px-6 text-center">
-
           <h3 className="text-4xl font-bold mb-4">Why Choose BetaSync?</h3>
-
           <p className="text-gray-600 text-lg mb-16 max-w-2xl mx-auto">
             We don’t just build software — we build long-term scalable systems.
           </p>
@@ -189,40 +150,87 @@ export default function Home() {
                 desc: "Systems built for Gulf, USA, AUS, UK, and EU markets.",
               },
             ].map((card, i) => (
-              <motion.div
+              <div
                 key={card.title}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.15 }}
-                viewport={{ once: true }}
                 className="p-8 bg-gray-50 rounded-3xl shadow hover:shadow-lg transition"
               >
                 <h4 className="text-xl font-semibold mb-4">{card.title}</h4>
                 <p className="text-gray-600">{card.desc}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
-
         </div>
       </section>
 
-      {/* ================= CONTACT CTA ================= */}
+      {/* ================= CONTACT FORM ================= */}
       <section
         id="contact"
-        className="py-28 bg-gradient-to-br from-blue-600 to-indigo-700 text-white text-center"
+        className="py-28 bg-gradient-to-br from-blue-600 to-indigo-700 text-white"
       >
-        <div className="max-w-7xl mx-auto px-6">
-          <h3 className="text-4xl font-bold mb-6">
-            Ready to Build Something Big?
+        <div className="max-w-4xl mx-auto px-6">
+          <h3 className="text-4xl font-bold mb-6 text-center">
+            Start Your Project With Us
           </h3>
 
-          <p className="text-lg max-w-2xl mx-auto mb-10 text-blue-100">
-            Tell us about your project — and let’s start building your next breakthrough.
+          <p className="text-lg max-w-2xl mx-auto mb-12 text-blue-100 text-center">
+            Fill out the form and our team will contact you within 24 hours.
           </p>
 
-          <Button className="rounded-2xl bg-white text-blue-700 px-10 py-6 text-lg font-semibold">
-            Contact Us
-          </Button>
+          <form
+            onSubmit={handleSubmit}
+            className="bg-white rounded-3xl p-10 text-gray-900 grid gap-6 shadow-xl"
+          >
+            <input
+              required
+              placeholder="Your Name"
+              className="p-4 rounded-xl border"
+            />
+            <input
+              required
+              type="email"
+              placeholder="Your Email"
+              className="p-4 rounded-xl border"
+            />
+            <input
+              placeholder="Company / Startup"
+              className="p-4 rounded-xl border"
+            />
+            <textarea
+              required
+              placeholder="Tell us about your project"
+              rows={4}
+              className="p-4 rounded-xl border resize-none"
+            />
+
+            <Button
+              disabled={loading}
+              className="rounded-2xl bg-blue-600 text-white py-6 text-lg"
+            >
+              {loading ? "Sending..." : "Submit Request"}
+            </Button>
+
+            {success && (
+              <p className="text-green-600 text-center font-medium">
+                ✅ Your message has been sent successfully!
+              </p>
+            )}
+          </form>
+        </div>
+      </section>
+
+      {/* ================= NEWSLETTER (EXTRA FEATURE) ================= */}
+      <section className="py-20 bg-white text-center border-t">
+        <h3 className="text-3xl font-bold mb-4">Join Our AI & SaaS Newsletter</h3>
+        <p className="text-gray-600 mb-8">
+          Monthly insights on startups, automation & product growth.
+        </p>
+
+        <div className="flex flex-col sm:flex-row justify-center gap-4 px-6">
+          <input
+            placeholder="Your email"
+            className="p-4 rounded-xl border w-72"
+          />
+          <Button className="rounded-xl px-8">Subscribe</Button>
         </div>
       </section>
 
